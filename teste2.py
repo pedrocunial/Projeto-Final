@@ -13,7 +13,7 @@ yellow = (255,255,0)
 cyan = (0,255,255)
 purple = (255,0,255)
 
-fps = 60
+fps = 100
 dispWidth = 800
 dispHeight = 600
 pixMove = 10
@@ -26,8 +26,8 @@ RIGHT = 'right'
 
 def runGame():
 
-	imgx = 400
-	imgy = 380
+	imgx = 300
+	imgy = 400
 	alive = True
 	pressed_up = False
 	g = 0.5
@@ -39,7 +39,7 @@ def runGame():
 
 	while True:     #main loop
 		delay = 100
-		interval = 20
+		interval = 10
 		pygame.key.set_repeat(delay, interval)
 		
 		while alive == True:
@@ -60,7 +60,7 @@ def runGame():
 						pressed_right = True
 					elif event.key == K_DOWN:
 						pressed_down = True
-					elif event.key == K_UP and jump_count == 0 and imgy <= 380:
+					elif event.key == K_UP and jump_count == 0 and imgy <= 400:
 						pressed_up = True
 						jump_count = 38
 						pixFall = 0
@@ -72,7 +72,7 @@ def runGame():
 				elif pressed_right:
 					imgx += pixMove
 
-			if jump_count > 0 and imgy <= 380:  #jump
+			if jump_count > 0 and imgy <= 400:  #jump
 			
 				if pressed_left:
 					imgx -= pixMove/5  #ITS A FEATURE!!
@@ -88,7 +88,7 @@ def runGame():
 				elif pixJump <= 0:
 					pixFall += g
 					imgy += pixFall
-					if imgy >= 380:
+					if imgy >= 400:
 						pixJump = pixMove
 						pixFall = 0
 						pressed_up = False
@@ -96,16 +96,16 @@ def runGame():
 				if pygame.key.get_pressed()[K_DOWN]:
 					if pressed_left:
 						imgx -= 10*pixMove
-						imgy = 380
+						imgy = 400
 						jump_count = 0
 
 					elif pressed_right:
 						imgx += 10*pixMove
-						imgy = 380
+						imgy = 400
 						jump_count = 0
 						
 				if jump_count == 1:
-					imgy = 380
+					imgy = 400
 				
 				jump_count -= 1
 				
@@ -114,19 +114,22 @@ def runGame():
 					jump_count = 0
 					pixGround = True
 
-			if imgx < 180 or imgx > 600 or imgy > 380:
+			if imgx < 180 or imgx > 600 or imgy > 400:
 				if pixAir == False:
 					pixFall += g
 					imgy += pixFall				
 				
 			img = pygame.image.load('kirby.png')
-			imgWidth = 20
-			imgHeight = 20
+			img2 = pygame.image.load('fox.png')
+			imgWidth = 30
+			imgHeight = 30
 			img = pygame.transform.scale(img,(imgWidth,imgHeight))
+			img2 = pygame.transform.scale(img2,(imgWidth, 2*imgHeight))
 			bg = pygame.image.load('fdbackground.jpg')
 			bg = pygame.transform.scale(bg,(dispWidth,dispHeight))
 			setDisplay.blit(bg,(0,0))
-			setDisplay.blit(img,(imgx,imgy))
+			setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
+			setDisplay.blit(img2,(400 + imgWidth, 400 - 2*imgHeight))
 			fase = pygame.draw.rect(setDisplay, purple, (200, 400, 400, 20))
 			pygame.display.update()
 
