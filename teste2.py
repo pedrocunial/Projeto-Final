@@ -13,9 +13,7 @@ yellow = (255,255,0)
 cyan = (0,255,255)
 purple = (255,0,255)
 
-bg = black
-
-fps = 30
+fps = 60
 dispWidth = 800
 dispHeight = 600
 pixMove = 10
@@ -69,14 +67,13 @@ def runGame():
 						pixJump = pixMove
 						pixAir = True
 
-
 				if pressed_left:
 					imgx -= pixMove
 				elif pressed_right:
 					imgx += pixMove
 
 			if jump_count > 0 and imgy <= 380:  #jump
-				
+			
 				if pressed_left:
 					imgx -= pixMove/5  #ITS A FEATURE!!
 				elif pressed_right:
@@ -115,19 +112,22 @@ def runGame():
 				if jump_count <= 0:
 					pixAir = False
 					jump_count = 0
+					pixGround = True
 
-			if imgx < 180 or imgx > 600:
+			if imgx < 180 or imgx > 600 or imgy > 380:
 				if pixAir == False:
 					pixFall += g
 					imgy += pixFall				
 				
-			setDisplay.fill(bg)
 			img = pygame.image.load('kirby.png')
-			fase = pygame.draw.rect(setDisplay, purple, (200, 400, 400, 20))
 			imgWidth = 20
 			imgHeight = 20
-			img = pygame.transform.scale(img, (imgWidth,imgHeight))
+			img = pygame.transform.scale(img,(imgWidth,imgHeight))
+			bg = pygame.image.load('fdbackground.jpg')
+			bg = pygame.transform.scale(bg,(dispWidth,dispHeight))
+			setDisplay.blit(bg,(0,0))
 			setDisplay.blit(img,(imgx,imgy))
+			fase = pygame.draw.rect(setDisplay, purple, (200, 400, 400, 20))
 			pygame.display.update()
 
 
