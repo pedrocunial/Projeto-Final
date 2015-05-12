@@ -37,10 +37,11 @@ def runGame():
 	pygame.mixer.music.load('fdmusic.mp3')
 	pygame.mixer.music.play(-1)
 	pixFall = 0
+	pixAir = False
 
 	while True:     #main loop
 		delay = 100
-		interval = 50
+		interval = 20
 		pygame.key.set_repeat(delay, interval)
 		
 		while alive == True:
@@ -66,6 +67,7 @@ def runGame():
 						jump_count = 38
 						pixFall = 0
 						pixJump = pixMove
+						pixAir = True
 
 
 				if pressed_left:
@@ -74,7 +76,18 @@ def runGame():
 					imgx += pixMove
 
 			if jump_count > 0 and imgy <= 380:  #jump
-				if pressed_left:
+				if pygame.key.get_pressed()[K_DOWN]:
+					if pressed_left:
+						imgx -= 3*pixMove
+						imgy = 380
+						jump_count = 0
+
+					elif pressed_right:
+						imgx += 3*pixMove
+						imgy = 380
+						jump_count = 0
+						
+				elif pressed_left:
 					imgx -= pixMove/5  #ITS A FEATURE!!
 				elif pressed_right:
 					imgx += pixMove/5  #IT IS STILL A FEATURE!!
@@ -95,11 +108,15 @@ def runGame():
 				if jump_count == 1:
 					imgy = 380
 				jump_count -= 1
+				
+				if jump_count <= 0:
+					pixAir = False
 
 			if imgx < 180 or imgx > 600:
-				pixFall += g
-				imgy += pixFall				
-			
+				if pixAir == False:
+					pixFall += g
+					imgy += pixFall				
+				
 			setDisplay.fill(bg)
 			img = pygame.image.load('kirby.png')
 			fase = pygame.draw.rect(setDisplay, purple, (200, 400, 400, 20))
