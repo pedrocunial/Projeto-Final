@@ -76,18 +76,8 @@ def runGame():
 					imgx += pixMove
 
 			if jump_count > 0 and imgy <= 380:  #jump
-				if pygame.key.get_pressed()[K_DOWN]:
-					if pressed_left:
-						imgx -= 3*pixMove
-						imgy = 380
-						jump_count = 0
-
-					elif pressed_right:
-						imgx += 3*pixMove
-						imgy = 380
-						jump_count = 0
-						
-				elif pressed_left:
+				
+				if pressed_left:
 					imgx -= pixMove/5  #ITS A FEATURE!!
 				elif pressed_right:
 					imgx += pixMove/5  #IT IS STILL A FEATURE!!
@@ -105,12 +95,26 @@ def runGame():
 						pixJump = pixMove
 						pixFall = 0
 						pressed_up = False
+
+				if pygame.key.get_pressed()[K_DOWN]:
+					if pressed_left:
+						imgx -= 10*pixMove
+						imgy = 380
+						jump_count = 0
+
+					elif pressed_right:
+						imgx += 10*pixMove
+						imgy = 380
+						jump_count = 0
+						
 				if jump_count == 1:
 					imgy = 380
+				
 				jump_count -= 1
 				
 				if jump_count <= 0:
 					pixAir = False
+					jump_count = 0
 
 			if imgx < 180 or imgx > 600:
 				if pixAir == False:
@@ -125,6 +129,7 @@ def runGame():
 			img = pygame.transform.scale(img, (imgWidth,imgHeight))
 			setDisplay.blit(img,(imgx,imgy))
 			pygame.display.update()
+
 
 			if (imgx < 0 or imgy < 0 or imgx > (dispWidth - imgWidth) or imgy > (dispHeight - imgHeight)):
 				#kills
