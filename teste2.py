@@ -60,7 +60,7 @@ def runGame():
 						pressed_right = True
 					elif event.key == K_DOWN:
 						pressed_down = True
-					elif event.key == K_UP and jump_count == 0:
+					elif event.key == K_UP and jump_count == 0 and imgy <= 380:
 						pressed_up = True
 						jump_count = 38
 						pixFall = 0
