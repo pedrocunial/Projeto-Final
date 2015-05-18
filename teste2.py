@@ -18,13 +18,15 @@ dispWidth = 800
 dispHeight = 600
 pixMove = 10
 
-
-UP = 'up'
-DOWN = 'down'
-LEFT = 'left'
-RIGHT = 'right'
-
 def runGame():
+	global imgx
+	global imgy
+	global alive
+	global pressed_up
+	global g
+	global jump_count
+	global pixFall
+	global pixAir
 
 	imgx = 300
 	imgy = 400
@@ -43,6 +45,9 @@ def runGame():
 		pygame.key.set_repeat(delay, interval)
 		
 		while alive == True:
+			
+			#imgx, pixAir, jump_count, pressed_up = movement()
+
 			for event in pygame.event.get():	#event handling loop
 				pressed_left = False
 				pressed_right = False
@@ -141,6 +146,37 @@ def runGame():
 				pygame.quit()
 				sys.exit()
 
+# def movement():
+# 	for event in pygame.event.get():	#event handling loop
+# 				pressed_left = False
+# 				pressed_right = False
+# 				pressed_down = False
+# 				bug = False
+				
+# 				if event.type == QUIT:
+# 					pygame.quit()
+# 					sys.exit()
+
+# 				elif event.type == KEYDOWN:
+# 					if event.key == K_LEFT:
+# 						pressed_left = True
+# 					elif event.key == K_RIGHT:
+# 						pressed_right = True
+# 					elif event.key == K_DOWN:
+# 						pressed_down = True
+# 					elif event.key == K_UP and jump_count == 0 and imgy <= 400:
+# 						pressed_up = True
+# 						jump_count = 38
+# 						pixFall = 0
+# 						pixJump = pixMove
+# 						pixAir = True
+
+# 				if pressed_left:
+# 					imgx -= pixMove
+# 				elif pressed_right:
+# 					imgx += pixMove
+# 	return imgx, pixAir, jump_count, pressed_up
+				
 while True:
 	global fpsTime
 	global setDisplay
