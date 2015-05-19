@@ -119,7 +119,7 @@ def runGame():
 					jump_count = 0
 					pixGround = True
 
-			if imgx < 180 or imgx > 600 or imgy > 400:
+			if imgx < 205 or imgx > 620 or imgy > 400:
 				if pixAir == False:
 					pixFall += g
 					imgy += pixFall				
