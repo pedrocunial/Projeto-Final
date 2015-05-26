@@ -238,6 +238,8 @@ def runGame():
 	p2_sprite = 4
 	imgx2 = 430
 	game = True
+	p1_hitstun = 0
+	p2_hitstun = 0
 	while game == True:     #main loop
 		delay = 20
 		interval = 30
@@ -245,7 +247,7 @@ def runGame():
 		#Consertar erro (????)
 		pressed_space = False
 		pressed_lctrol = False
-		
+
 		while alive == True:
 			for event in pygame.event.get():	#event handling loop
 				pressed_left = False
@@ -264,45 +266,47 @@ def runGame():
 				#Verificar qual tecla foi pressionada
 				keys = pygame.key.get_pressed()
 				#P1
-				if keys[K_SPACE]:
-					pressed_space = True
-				if keys[K_LEFT]:
-					pressed_left = True
-					pressed_space = False
-					p1_aux_lado = "left"
-				if keys[K_RIGHT]:
-					pressed_right = True
-					pressed_space = False
-					p1_aux_lado = "right"
-				if keys[K_DOWN]:
-					pressed_down = True
-				if keys[K_UP] and p1_jump_count == 0  and imgy <= imgy_original:
-					pressed_up = True
-					p1_jump_count = 38
-					p1_pixFall = 0
-					p1_pixJump = pixMove
-					p1_pixAir = True
+				if p1_hitstun <= 0:
+					if keys[K_SPACE]:
+						pressed_space = True
+					if keys[K_LEFT]:
+						pressed_left = True
+						pressed_space = False
+						p1_aux_lado = "left"
+					if keys[K_RIGHT]:
+						pressed_right = True
+						pressed_space = False
+						p1_aux_lado = "right"
+					if keys[K_DOWN]:
+						pressed_down = True
+					if keys[K_UP] and p1_jump_count == 0  and imgy <= imgy_original:
+						pressed_up = True
+						p1_jump_count = 38
+						p1_pixFall = 0
+						p1_pixJump = pixMove
+						p1_pixAir = True
+				p1_hitstun -= 1
 
-				#P2
-				if keys[K_d]:
-					pressed_d = True
-					pressed_lctrol = False
-					p2_aux_lado = "right"
-				if keys[K_w] and p2_jump_count == 0 and imgy2 <= imgy2_original:
-					pressed_w = True
-					p2_jump_count = 38
-					p2_pixFall = 0
-					p2_pixJump = pixMove
-					p2_pixAir = True
-				if keys[K_a]:
-					pressed_a = True
-					pressed_lctrol = False
-					p2_aux_lado = "left"
-				if keys [K_s]:
-					pressed_s = True
-				if keys [K_LCTRL]:
-					pressed_lctrol = True
-
+				if p2_hitstun <= 0:	#P2
+					if keys[K_d]:
+						pressed_d = True
+						pressed_lctrol = False
+						p2_aux_lado = "right"
+					if keys[K_w] and p2_jump_count == 0 and imgy2 <= imgy2_original:
+						pressed_w = True
+						p2_jump_count = 38
+						p2_pixFall = 0
+						p2_pixJump = pixMove
+						p2_pixAir = True
+					if keys[K_a]:
+						pressed_a = True
+						pressed_lctrol = False
+						p2_aux_lado = "left"
+					if keys [K_s]:
+						pressed_s = True
+					if keys [K_LCTRL]:
+						pressed_lctrol = True
+				p2_hitstun -= 1
 
 				# Andar Esquerda_P1
 				if pressed_left: 
@@ -608,13 +612,15 @@ def runGame():
 						imgx2-=20
 					if imgx < imgx2:
 						imgx2+=20
+					p2_hitstun = 10
+
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
 					if imgx2 >= imgx:
 						imgx-=20
 					if imgx2 < imgx:
 						imgx+=20
-
+					p1_hitstun = 10
 
 			#P2-Sprites
 			#setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
