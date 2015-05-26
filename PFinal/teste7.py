@@ -255,6 +255,7 @@ def runGame():
 				pressed_right = False
 				pressed_down = False
 				pressed_space = False
+				
 				pressed_d = False
 				pressed_a = False
 				pressed_s = False
@@ -679,7 +680,7 @@ while True:
 	global setDisplay
 	fpsTime = pygame.time.Clock()
 	setDisplay = pygame.display.set_mode((dispWidth,dispHeight))
-	pygame.display.set_caption('kirby\'s controlled adventure')
+	pygame.display.set_caption('SuPy Insper Brothers')
 	while True:
 		Menu()
 		personagem = Character()
