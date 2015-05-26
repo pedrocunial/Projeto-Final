@@ -240,6 +240,7 @@ def runGame():
 	game = True
 	p1_hitstun = 0
 	p2_hitstun = 0
+	hitstun = 7
 	while game == True:     #main loop
 		delay = 20
 		interval = 30
@@ -266,7 +267,7 @@ def runGame():
 				#Verificar qual tecla foi pressionada
 				keys = pygame.key.get_pressed()
 				#P1
-				if p1_hitstun <= 0:
+				if p1_hitstun <= 0:		#personagem só poderá atacar se não estiver em hitstun
 					if keys[K_SPACE]:
 						pressed_space = True
 					if keys[K_LEFT]:
@@ -285,9 +286,10 @@ def runGame():
 						p1_pixFall = 0
 						p1_pixJump = pixMove
 						p1_pixAir = True
-				p1_hitstun -= 1
+				p1_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
-				if p2_hitstun <= 0:	#P2
+				if p2_hitstun <= 0: 	#personagem só poderá atacar e não estiver em hitstun (ver código mais abaixo, na parte de colisões)
+				#P2
 					if keys[K_d]:
 						pressed_d = True
 						pressed_lctrol = False
@@ -306,7 +308,7 @@ def runGame():
 						pressed_s = True
 					if keys [K_LCTRL]:
 						pressed_lctrol = True
-				p2_hitstun -= 1
+				p2_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
 				# Andar Esquerda_P1
 				if pressed_left: 
@@ -612,7 +614,7 @@ def runGame():
 						imgx2-=20
 					if imgx < imgx2:
 						imgx2+=20
-					p2_hitstun = 10
+					p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
 
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
@@ -620,7 +622,7 @@ def runGame():
 						imgx-=20
 					if imgx2 < imgx:
 						imgx+=20
-					p1_hitstun = 10
+					p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
 
 			#P2-Sprites
 			#setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
