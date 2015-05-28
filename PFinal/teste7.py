@@ -311,6 +311,7 @@ def runGame():
 						pressed_lctrol = True
 				p2_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
+
 				# Andar Esquerda_P1
 				if pressed_left: 
 					imgx -= pixMove
@@ -537,8 +538,6 @@ def runGame():
 				if p2_pixAir == False:
 					p2_pixFall += g
 					imgy2 += p2_pixFall	
-
-
 
 			#Soco_P1
 			if pressed_space:
