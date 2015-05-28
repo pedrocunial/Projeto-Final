@@ -2,6 +2,7 @@ import pygame
 import sys
 from pygame.locals import *
 import os #Para importar arquivos de diferentes pastas
+import time
 
 pygame.init()
 
@@ -24,6 +25,7 @@ dispWidth = 800
 dispHeight = 600
 pixMove = 10
 
+
 #Posição inicial P1
 p1_eixox = 370
 p1_eixoy = 400
@@ -40,6 +42,7 @@ pasta_menu = "Menu"
 
 
 #Ler Imagens
+full_life = pygame.image.load(os.path.join(pasta_imagens,'full_life.png'))
 img = pygame.image.load(os.path.join(pasta_imagens,'kirby.png'))
 img2 = pygame.image.load(os.path.join(pasta_imagens,'fox.png'))
 p1_walkRight1 = pygame.image.load(os.path.join(pasta_imagens,'pedro_right1.png'))
@@ -68,12 +71,17 @@ p2_jumpLeft = pygame.image.load(os.path.join(pasta_imagens,'Pular_Left.png'))
 #Imagens Menu
 background_menu = pygame.image.load(os.path.join(pasta_menu,'background_menu.png'))
 background_character = pygame.image.load(os.path.join(pasta_menu,'choose_character.png'))
+bg = pygame.image.load(os.path.join(pasta_imagens,'background.png'))
 p1_select = pygame.image.load(os.path.join(pasta_menu,'select_p1.png'))
 p2_select = pygame.image.load(os.path.join(pasta_menu,'select_p2.png'))
 start_1 = pygame.image.load(os.path.join(pasta_menu,'start_1.png'))
 start_2 = pygame.image.load(os.path.join(pasta_menu,'start_2.png'))
 close_1 = pygame.image.load(os.path.join(pasta_menu,'close_1.png'))
 close_2 = pygame.image.load(os.path.join(pasta_menu,'close_2.png'))
+
+#Wins
+p1_wins = pygame.image.load(os.path.join(pasta_imagens,'player1_wins.png'))
+p2_wins = pygame.image.load(os.path.join(pasta_imagens,'player2_wins.png'))
 
 
 #Classe Personagens
@@ -188,7 +196,14 @@ def Character():
 			pygame.display.update()
 	return personagem
 
-
+def PlayerWin(win):
+	setDisplay.blit(bg,(0,0))
+	if win == "p1":	
+		setDisplay.blit(p1_wins,(0,0))
+	if win == "p2":
+		setDisplay.blit(p2_wins,(0,0))
+	pygame.display.update()
+	time.sleep(3)
 
 #Função Principal - Rodar Jogo
 def runGame():
@@ -245,6 +260,8 @@ def runGame():
 	p1_hitstun = 0
 	p2_hitstun = 0
 	hitstun = 7
+	hit1 = 0
+	hit2 = 0
 	while game:     #main loop
 		delay = 20
 		interval = 30
@@ -564,9 +581,10 @@ def runGame():
 
 
 
-			bg = pygame.image.load(os.path.join(pasta_imagens,'background.png'))
-			bg = pygame.transform.scale(bg,(dispWidth,dispHeight))
 			setDisplay.blit(bg,(0,0))
+			life1 = pygame.draw.rect(setDisplay, red, (23, 13, 298-hit1, 58))
+			life2 = pygame.draw.rect(setDisplay, red, (471, 13, 300-hit2, 58))
+			setDisplay.blit(full_life,(0,0))
 
 
 			#Desenhar Sprites
@@ -619,6 +637,7 @@ def runGame():
 					if imgx < imgx2:
 						imgx2+=20
 					p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
+					hit2+=30
 
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
@@ -627,6 +646,7 @@ def runGame():
 					if imgx2 < imgx:
 						imgx+=20
 					p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
+					hit1+=30
 
 			#P2-Sprites
 			#setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
@@ -676,6 +696,16 @@ def runGame():
 				alive = False
 				game = False
 				pygame.mixer.music.stop()
+			if hit1 == 300 or hit2 == 300:
+				if hit1 == 300:
+					win = "p2"
+				if hit2 == 300:
+					win = "p1"
+				alive = False
+				game = False
+				pygame.mixer.music.stop()
+				return win
+
 
 
 while True:
@@ -687,5 +717,5 @@ while True:
 	while True:
 		Menu()
 		personagem = Character()
-		runGame()
-				
+		win = runGame()
+		PlayerWin(win)	
