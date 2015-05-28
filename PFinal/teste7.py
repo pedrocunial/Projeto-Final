@@ -100,7 +100,7 @@ def Menu():
 	pygame.mixer.music.load(os.path.join(pasta_musicas,'quimica-do-amor.wav'))
 	pygame.mixer.music.play()
 	button_pressed = False	
-	while button_pressed == False:
+	while not button_pressed:
 		setDisplay.blit(background_menu,(0,0))
 		for event in pygame.event.get():
 			mouse_pos = pygame.mouse.get_pos()
@@ -131,7 +131,7 @@ def Character():
 	button_pressed_p1 = False	
 	button_pressed_p2 = False
 	#Escolher P1
-	while button_pressed_p1 == False:
+	while not button_pressed_p1:
 		setDisplay.blit(background_character,(0,0))
 		for event in pygame.event.get():
 			mouse_pos = pygame.mouse.get_pos()
@@ -155,10 +155,14 @@ def Character():
 			#
 
 			pygame.display.update()
-
-
 	#Escolher P2
-	while button_pressed_p2 == False:
+	click_continuo = False
+	while not click_continuo:
+		for event in pygame.event.get():
+			click = pygame.mouse.get_pressed()
+			if click[0] == 0:
+				click_continuo = True
+	while not button_pressed_p2:
 		setDisplay.blit(background_character,(0,0))
 		for event in pygame.event.get():
 			mouse_pos = pygame.mouse.get_pos()
@@ -241,7 +245,7 @@ def runGame():
 	p1_hitstun = 0
 	p2_hitstun = 0
 	hitstun = 7
-	while game == True:     #main loop
+	while game:     #main loop
 		delay = 20
 		interval = 30
 		pygame.key.set_repeat(delay, interval)
@@ -249,7 +253,7 @@ def runGame():
 		pressed_space = False
 		pressed_lctrol = False
 
-		while alive == True:
+		while alive:
 			for event in pygame.event.get():	#event handling loop
 				pressed_left = False
 				pressed_right = False
@@ -459,7 +463,7 @@ def runGame():
 
 			#Fora da Plataforma/Gravidade_P1
 			if imgx < 180 or imgx > 605 or imgy > 330:
-				if p1_pixAir == False:
+				if not p1_pixAir:
 					p1_pixFall += g
 					imgy += p1_pixFall				
 			imgWidth = 50
@@ -535,7 +539,7 @@ def runGame():
 
 			#Fora da Plataforma/Gravidade_P2
 			if imgx2 < 180 or imgx2 > 605 or imgy2 > 330:
-				if p2_pixAir == False:
+				if not p2_pixAir:
 					p2_pixFall += g
 					imgy2 += p2_pixFall	
 
