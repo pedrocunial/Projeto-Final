@@ -484,10 +484,9 @@ def runGame():
 				if not p1_pixAir:
 					p1_pixFall += g
 					imgy += p1_pixFall				
+			
 			imgWidth = 50
 			imgHeight = 40
-
-
 
 			# Pular_P2
 			if p2_jump_count > 0 and imgy2 <= 330: 
@@ -583,6 +582,7 @@ def runGame():
 
 
 			setDisplay.blit(bg,(0,0))
+			fase = pygame.draw.rect(setDisplay, purple, (200, 400, 400, 20))
 			life1 = pygame.draw.rect(setDisplay, red, (23, 13, 298-hit1, 58))
 			life2 = pygame.draw.rect(setDisplay, red, (471, 13, 300-hit2, 58))
 			setDisplay.blit(full_life,(0,0))
@@ -652,7 +652,7 @@ def runGame():
 			#P2-Sprites
 			#setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
 			#setDisplay.blit(img2,(imgx2 + imgWidth, imgy2 - 2*imgHeight))
-			if p2_sprite == 1: #p1_sprite do personagem em relacao a sua posicao
+			if p2_sprite == 1: #p2_sprite do personagem em relacao a sua posicao
 				setDisplay.blit(P2.sprite_walkRight1,(imgx2,imgy2))
 			if p2_sprite == 2:
 				setDisplay.blit(P2.sprite_walkRight2,(imgx2,imgy2))
@@ -679,11 +679,7 @@ def runGame():
 			if p2_sprite == 10:
 				setDisplay.blit(P2.sprite_jumpLeft,(imgx2,imgy2))
 
-
-			fase = pygame.draw.rect(setDisplay, purple, (200, 400, 400, 20))
 			pygame.display.update()
-
-
 
 			#Cair da plataforma
 			if (imgx < 0 or imgy < 0 or imgx > (dispWidth - imgWidth) or imgy > (dispHeight - imgHeight)):
