@@ -269,6 +269,7 @@ def runGame():
 		#Consertar erro (????)
 		pressed_space = False
 		pressed_lctrol = False
+		win = False
 
 		while alive:
 			for event in pygame.event.get():	#event handling loop
@@ -637,7 +638,7 @@ def runGame():
 					if imgx < imgx2:
 						imgx2+=20
 					p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
-					hit2+=30
+					hit2+=10
 
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
@@ -646,7 +647,7 @@ def runGame():
 					if imgx2 < imgx:
 						imgx+=20
 					p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
-					hit1+=30
+					hit1+=10
 
 			#P2-Sprites
 			#setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
@@ -689,13 +690,16 @@ def runGame():
 				#kills
 				alive = False
 				game = False
+				win = "p2"
 				pygame.mixer.music.stop()
-
+				return win
 			if (imgx2 < 0 or imgy2 < 0 or imgx2 > dispWidth or imgy2 > dispHeight):
 				#kills
 				alive = False
 				game = False
+				win = "p1"
 				pygame.mixer.music.stop()
+				return win
 			if hit1 == 300 or hit2 == 300:
 				if hit1 == 300:
 					win = "p2"
