@@ -106,7 +106,7 @@ class Personagem(object):
 #Função Menu
 def Menu():
 	pygame.mixer.music.load(os.path.join(pasta_musicas,'quimica-do-amor.wav'))
-	pygame.mixer.music.play()
+	pygame.mixer.music.play(-1)
 	button_pressed = False	
 	while not button_pressed:
 		setDisplay.blit(background_menu,(0,0))
@@ -243,7 +243,7 @@ def runGame():
 
 	pygame.mixer.music.load(os.path.join(pasta_musicas,'fd_8bits.mp3'))
 	pygame.mixer.music.set_volume(0.6)
-	pygame.mixer.music.play()
+	pygame.mixer.music.play(-1)
 
 	p1_pixFall = 0
 	p2_pixFall = 0
@@ -260,6 +260,7 @@ def runGame():
 	p1_hitstun = 0
 	p2_hitstun = 0
 	hitstun = 7
+	knockback = 10
 	hit1 = 0
 	hit2 = 0
 	while game:     #main loop
@@ -636,18 +637,18 @@ def runGame():
 			if p1_sprite == 7 or p1_sprite == 8:
 				if imgx in range(int(imgx2)-38,int(imgx2)+38) and imgy+P1.altura_hitbox in range(int(imgy2)+P2.altura_hitbox -10,int(imgy2)+P2.altura_hitbox+10):
 					if imgx >= imgx2:
-						imgx2-=20
+						imgx2 -= knockback + hit2/10 	#knockback (recuo do personagem ao ser atacado) aumenta conforme ele toma mais dano
 					if imgx < imgx2:
-						imgx2+=20
+						imgx2 += knockback + hit2/10
 					p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
 					hit2+=10
 
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
 					if imgx2 >= imgx:
-						imgx-=20
+						imgx -= knockback + hit1/10
 					if imgx2 < imgx:
-						imgx+=20
+						imgx += knockback + hit1/10
 					p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
 					hit1+=10
 
