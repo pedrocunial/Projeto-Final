@@ -312,7 +312,11 @@ def runGame():
 				p1_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
 				if p2_hitstun <= 0: 	#personagem só poderá atacar e não estiver em hitstun (ver código mais abaixo, na parte de colisões)
+				
+
 				#P2
+					if keys [K_LCTRL]:
+						pressed_lctrol = True
 					if keys[K_d]:
 						pressed_d = True
 						pressed_lctrol = False
@@ -329,8 +333,6 @@ def runGame():
 						p2_aux_lado = "left"
 					if keys [K_s]:
 						pressed_s = True
-					if keys [K_LCTRL]:
-						pressed_lctrol = True
 				p2_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
 
@@ -412,6 +414,24 @@ def runGame():
 							p2_aux += 1
 							if p2_aux == 12:
 								p2_aux = 0
+			#Soco_P1
+			if pressed_space:
+				if p1_aux_lado == "right":
+					p1_sprite = 7
+					p1_punch_aux = 10
+				elif p1_aux_lado =="left":
+					p1_sprite = 8
+					p1_punch_aux = 10
+
+
+			#Soco_P2
+			if pressed_lctrol:
+				if p2_aux_lado == "right":
+					p2_sprite = 7
+					p2_punch_aux = 10
+				elif p2_aux_lado =="left":
+					p2_sprite = 8
+					p2_punch_aux = 10
 
 			# Pular_P1
 			if p1_jump_count > 0 and imgy <= 330: 
@@ -560,24 +580,6 @@ def runGame():
 					p2_pixFall += g
 					imgy2 += p2_pixFall	
 
-			#Soco_P1
-			if pressed_space:
-				if p1_aux_lado == "right":
-					p1_sprite = 7
-					p1_punch_aux = 10
-				elif p1_aux_lado =="left":
-					p1_sprite = 8
-					p1_punch_aux = 10
-
-
-			#Soco_P2
-			if pressed_lctrol:
-				if p2_aux_lado == "right":
-					p2_sprite = 7
-					p2_punch_aux = 10
-				elif p2_aux_lado =="left":
-					p2_sprite = 8
-					p2_punch_aux = 10
 
 
 
