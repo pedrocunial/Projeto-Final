@@ -291,7 +291,7 @@ def runGame():
 	p1_hitstun = 0
 	p2_hitstun = 0
 	hitstun = 7
-	knockback = 10
+	knockback = 25
 	hit1 = 0
 	hit2 = 0
 	while game:     #main loop
@@ -299,8 +299,8 @@ def runGame():
 		interval = 30
 		pygame.key.set_repeat(delay, interval)
 		#Consertar erro (????)
-		pressed_space = False
-		pressed_lctrol = False
+		pressed_rctrl = False
+		pressed_tab = False
 		win = False
 
 		while alive:
@@ -308,12 +308,12 @@ def runGame():
 				pressed_left = False
 				pressed_right = False
 				pressed_down = False
-				pressed_space = False
+				pressed_rctrl = False
 				
 				pressed_d = False
 				pressed_a = False
 				pressed_s = False
-				pressed_lctrol = False
+				pressed_tab = False
 				bug = False
 				if event.type == QUIT:
 					pygame.quit()
@@ -323,15 +323,15 @@ def runGame():
 				keys = pygame.key.get_pressed()
 				#P1
 				if p1_hitstun <= 0:		#personagem só poderá atacar se não estiver em hitstun
-					if keys[K_SPACE]:
-						pressed_space = True
+					if keys[K_RCTRL]:
+						pressed_rctrl = True
 					if keys[K_LEFT]:
 						pressed_left = True
-						pressed_space = False
+						pressed_rctrl = False
 						p1_aux_lado = "left"
 					if keys[K_RIGHT]:
 						pressed_right = True
-						pressed_space = False
+						pressed_rctrl = False
 						p1_aux_lado = "right"
 					if keys[K_DOWN]:
 						pressed_down = True
@@ -347,11 +347,11 @@ def runGame():
 				
 
 				#P2
-					if keys [K_LCTRL]:
-						pressed_lctrol = True
+					if keys [K_TAB]:
+						pressed_tab = True
 					if keys[K_d]:
 						pressed_d = True
-						pressed_lctrol = False
+						pressed_tab = False
 						p2_aux_lado = "right"
 					if keys[K_w] and p2_jump_count == 0 and imgy2 <= imgy2_original:
 						pressed_w = True
@@ -361,7 +361,7 @@ def runGame():
 						p2_pixAir = True
 					if keys[K_a]:
 						pressed_a = True
-						pressed_lctrol = False
+						pressed_tab = False
 						p2_aux_lado = "left"
 					if keys [K_s]:
 						pressed_s = True
@@ -447,7 +447,7 @@ def runGame():
 							if p2_aux == 12:
 								p2_aux = 0
 			#Soco_P1
-			if pressed_space:
+			if pressed_rctrl:
 				if p1_aux_lado == "right":
 					p1_sprite = 7
 					p1_punch_aux = 10
@@ -457,7 +457,7 @@ def runGame():
 
 
 			#Soco_P2
-			if pressed_lctrol:
+			if pressed_tab:
 				if p2_aux_lado == "right":
 					p2_sprite = 7
 					p2_punch_aux = 10
@@ -668,18 +668,18 @@ def runGame():
 			if p1_sprite == 7 or p1_sprite == 8:
 				if imgx in range(int(imgx2)-38,int(imgx2)+38) and imgy+P1.altura_hitbox in range(int(imgy2)+P2.altura_hitbox -10,int(imgy2)+P2.altura_hitbox+10):
 					if imgx >= imgx2:
-						imgx2 -= knockback + hit2/10 	#knockback (recuo do personagem ao ser atacado) aumenta conforme ele toma mais dano
+						imgx2 -= knockback + hit2/5 	#knockback (recuo do personagem ao ser atacado) aumenta conforme ele toma mais dano
 					if imgx < imgx2:
-						imgx2 += knockback + hit2/10
+						imgx2 += knockback + hit2/5
 					p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
 					hit2+=10
 
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
 					if imgx2 >= imgx:
-						imgx -= knockback + hit1/10
+						imgx -= knockback + hit1/5
 					if imgx2 < imgx:
-						imgx += knockback + hit1/10
+						imgx += knockback + hit1/5
 					p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
 					hit1+=10
 
