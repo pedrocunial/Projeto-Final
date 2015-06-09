@@ -47,6 +47,7 @@ pasta_credits = "IMG Credits"
 full_life = pygame.image.load(os.path.join(pasta_imagens,'full_life.png'))
 img = pygame.image.load(os.path.join(pasta_imagens,'kirby.png'))
 img2 = pygame.image.load(os.path.join(pasta_imagens,'fox.png'))
+icon = pygame.image.load(os.path.join(pasta_imagens,'logo.png'))
 p1_walkRight1 = pygame.image.load(os.path.join(pasta_imagens,'pedro_right1.png'))
 p1_walkRight2 = pygame.image.load(os.path.join(pasta_imagens,'pedro_right2.png'))
 p1_walkRight3= pygame.image.load(os.path.join(pasta_imagens,'pedro_right3.png'))
@@ -796,6 +797,7 @@ while True:
 	global setDisplay
 	fpsTime = pygame.time.Clock()
 	setDisplay = pygame.display.set_mode((dispWidth,dispHeight))
+	pygame.display.set_icon(icon)
 	pygame.display.set_caption('SuPy Insper Brothers')
 	while True:
 		button_pressed = Menu()
