@@ -3,6 +3,7 @@ import sys
 from pygame.locals import *
 import os #Para importar arquivos de diferentes pastas
 import time
+from credits import credits
 
 pygame.init()
 
@@ -38,6 +39,7 @@ p2_eixoy = 400
 pasta_imagens = "Imagens"
 pasta_musicas = "Musicas"
 pasta_menu = "Menu"
+pasta_credits = "IMG Credits"
 
 
 
@@ -100,10 +102,14 @@ start_1 = pygame.image.load(os.path.join(pasta_menu,'start_1.png'))
 start_2 = pygame.image.load(os.path.join(pasta_menu,'start_2.png'))
 close_1 = pygame.image.load(os.path.join(pasta_menu,'close_1.png'))
 close_2 = pygame.image.load(os.path.join(pasta_menu,'close_2.png'))
+credits1 = pygame.image.load(os.path.join(pasta_menu,'credits1.png'))
+credits2 = pygame.image.load(os.path.join(pasta_menu,'credits2.png'))
+
 
 #Wins
 p1_wins = pygame.image.load(os.path.join(pasta_imagens,'player1_wins.png'))
 p2_wins = pygame.image.load(os.path.join(pasta_imagens,'player2_wins.png'))
+
 
 
 #Classe Personagens
@@ -130,6 +136,7 @@ def Menu():
 	pygame.mixer.music.load(os.path.join(pasta_musicas,'quimica-do-amor.wav'))
 	pygame.mixer.music.play(-1)
 	button_pressed = False	
+	i = 0
 	while not button_pressed:
 		setDisplay.blit(background_menu,(0,0))
 		for event in pygame.event.get():
@@ -138,21 +145,31 @@ def Menu():
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
-			if 300 > mouse_pos[0] > 100 and 500 > mouse_pos[1] > 400:
-				setDisplay.blit(start_2,(100,400))
-				if click[0] == 1:
-					button_pressed = True
-					#pygame.mixer.music.stop()
-			else:
-				setDisplay.blit(start_1,(100,400))
-			if 700 > mouse_pos[0] > 500 and 500 > mouse_pos[1] > 400:
-				setDisplay.blit(close_2,(500,400))
-				if click[0] == 1:
-					pygame.quit()
-					sys.exit()
-			else:
-				setDisplay.blit(close_1,(500,400))
-			pygame.display.update()
+		if 300 > mouse_pos[0] > 100 and 500 > mouse_pos[1] > 400:
+			setDisplay.blit(start_2,(100,400))
+			if click[0] == 1:
+				button_pressed = True
+				#pygame.mixer.music.stop()
+		else:
+			setDisplay.blit(start_1,(100,400))
+		if 700 > mouse_pos[0] > 500 and 500 > mouse_pos[1] > 400:
+			setDisplay.blit(close_2,(500,400))
+			if click[0] == 1:
+				pygame.quit()
+				sys.exit()
+		else:
+			setDisplay.blit(close_1,(500,400))
+		if 120 > mouse_pos[0] > 0 and 23 > mouse_pos[1] > 0:
+			if i == 0:
+				setDisplay.blit(credits1,(5,5))
+				i+=1
+			elif i == 1:
+				setDisplay.blit(credits2,(5,5))
+				i-=1
+			if click[0] == 1:
+				button_pressed = "Creditos"
+				return button_pressed
+		pygame.display.update()
 
 
 #Função escolher personagem
@@ -781,7 +798,9 @@ while True:
 	setDisplay = pygame.display.set_mode((dispWidth,dispHeight))
 	pygame.display.set_caption('SuPy Insper Brothers')
 	while True:
-		Menu()
+		button_pressed = Menu()
+		if button_pressed == "Creditos":
+			credits()
 		personagem = Character()
 		win = runGame()
 		PlayerWin(win)	
