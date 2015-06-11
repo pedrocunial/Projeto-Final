@@ -113,6 +113,7 @@ p2_wins = pygame.image.load(os.path.join(pasta_imagens,'player2_wins.png'))
 
 #Ninja
 movie = pygame.movie.Movie(os.path.join(pasta_credits,'ninja.mpg'))
+creditos = pygame.image.load(os.path.join(pasta_credits,'creditos.jpg'))
 
 
 
@@ -271,7 +272,8 @@ def PlayerWin(win):
 
 def Credits():
 	FPS = 60
-
+	credits_x = 500
+	credits_y = 600
 	pygame.mixer.music.load(os.path.join(pasta_musicas,'sandstorm.mp3'))
 	pygame.mixer.music.play(-1)
 	clock = pygame.time.Clock()
@@ -280,15 +282,16 @@ def Credits():
 	movie.set_display(movie_screen)
 	movie.play()
 
-
 	playing = True
 	while playing:
+		credits_y -= 1
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				movie.stop()
 				playing = False
 		setDisplay.fill(black_creditos)
 		setDisplay.blit(movie_screen,(50,200))
+		setDisplay.blit(creditos,(credits_x,credits_y))
 		pygame.display.update()
 		clock.tick(FPS)
 
