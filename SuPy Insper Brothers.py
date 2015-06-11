@@ -116,6 +116,9 @@ movie = pygame.movie.Movie(os.path.join(pasta_credits,'ninja.mpg'))
 creditos = pygame.image.load(os.path.join(pasta_credits,'creditos.jpg'))
 
 
+#Shield
+shield = pygame.image.load(os.path.join(pasta_imagens,'shield.png'))
+
 
 #Classe Personagens
 class Personagem(object):
@@ -375,6 +378,10 @@ def runGame():
 	knockback = 25
 	hit1 = 0
 	hit2 = 0
+	p1_shield_count = 0
+	p2_shield_count = 0
+	p1_shield = False
+	p2_shield = False
 	while game:     #main loop
 		delay = 20
 		interval = 30
@@ -383,8 +390,24 @@ def runGame():
 		pressed_rctrl = False
 		pressed_tab = False
 		win = False
-
 		while alive:
+
+
+
+
+
+
+			#Diminuir Escudinho
+			if p1_shield_count > 0:
+				p1_shield_count -=1
+			if p2_shield_count > 0:
+				p2_shield_count -=1
+
+
+
+
+
+
 			for event in pygame.event.get():	#event handling loop
 				pressed_left = False
 				pressed_right = False
@@ -395,6 +418,8 @@ def runGame():
 				pressed_a = False
 				pressed_s = False
 				pressed_tab = False
+				p1_shield = False
+				p2_shield = False
 				bug = False
 				if event.type == QUIT:
 					pygame.quit()
@@ -422,6 +447,8 @@ def runGame():
 						p1_pixFall = 0
 						p1_pixJump = pixMove
 						p1_pixAir = True
+					if keys[K_DOWN] and not p1_pixAir and p1_shield_count == 0:
+						p1_shield = True
 				p1_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
 				if p2_hitstun <= 0: 	#personagem só poderá atacar e não estiver em hitstun (ver código mais abaixo, na parte de colisões)
@@ -446,6 +473,8 @@ def runGame():
 						p2_aux_lado = "left"
 					if keys [K_s]:
 						pressed_s = True
+					if keys[K_s] and not p2_pixAir and p2_shield_count == 0:
+						p2_shield = True						
 				p2_hitstun -= 1 	#subtrai valores da hitstun até zerar e o jogador poder controlar seu personagem novamente
 
 
@@ -694,6 +723,20 @@ def runGame():
 					imgy2 += p2_pixFall	
 
 
+			#Shield P1
+			if p1_shield:
+				p1_shield_count = 50
+				p1_hitstun = 49
+			if p1_shield_count == 1:
+				p1_hitstun = 15
+
+			#Shield P2
+			if p2_shield:
+				p2_shield_count = 50
+				p2_hitstun = 49
+			if p2_shield_count == 1:
+				p2_hitstun = 15
+
 
 
 			setDisplay.blit(bg,(0,0))
@@ -748,21 +791,27 @@ def runGame():
 			# Teste Impacto
 			if p1_sprite == 7 or p1_sprite == 8:
 				if imgx in range(int(imgx2)-38,int(imgx2)+38) and imgy+P1.altura_hitbox in range(int(imgy2)+P2.altura_hitbox -10,int(imgy2)+P2.altura_hitbox+10):
-					if imgx >= imgx2:
-						imgx2 -= knockback + hit2/5 	#knockback (recuo do personagem ao ser atacado) aumenta conforme ele toma mais dano
-					if imgx < imgx2:
-						imgx2 += knockback + hit2/5
-					p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
-					hit2+=10
+					if p2_shield_count > 1:
+						p1_hitstun = 15
+					else:
+						if imgx >= imgx2:
+							imgx2 -= knockback + hit2/5 	#knockback (recuo do personagem ao ser atacado) aumenta conforme ele toma mais dano
+						if imgx < imgx2:
+							imgx2 += knockback + hit2/5
+						p2_hitstun = hitstun 	#hitstun (personagem atacado não poderá atacar por um "breve" periodo)
+						hit2+=10
 
 			if p2_sprite == 7 or p2_sprite == 8:
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
-					if imgx2 >= imgx:
-						imgx -= knockback + hit1/5
-					if imgx2 < imgx:
-						imgx += knockback + hit1/5
-					p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
-					hit1+=10
+					if p1_shield_count > 1:
+						p2_hitstun = 15
+					else:
+						if imgx2 >= imgx:
+							imgx -= knockback + hit1/5
+						if imgx2 < imgx:
+							imgx += knockback + hit1/5
+						p1_hitstun = hitstun 	#hitstun (personagem atacada não poderá atacar por um 'x' número de frames)
+						hit1+=10
 
 			#P2-Sprites
 			#setDisplay.blit(img,(imgx - imgWidth,imgy - imgHeight))
@@ -794,6 +843,12 @@ def runGame():
 			if p2_sprite == 10:
 				setDisplay.blit(P2.sprite_jumpLeft,(imgx2,imgy2))
 
+
+			#Sprites Shield
+			if p1_shield_count > 1:
+				setDisplay.blit(shield,(imgx-25,imgy-10))
+			if p2_shield_count > 1:
+				setDisplay.blit(shield,(imgx2-25,imgy2-10))		
 			pygame.display.update()
 
 			#Cair da plataforma
@@ -824,8 +879,8 @@ def runGame():
 
 
 while True:
-	global fpsTime
-	global setDisplay
+	#global fpsTime
+	#global setDisplay
 	fpsTime = pygame.time.Clock()
 	setDisplay = pygame.display.set_mode((dispWidth,dispHeight))
 	pygame.display.set_icon(icon)
