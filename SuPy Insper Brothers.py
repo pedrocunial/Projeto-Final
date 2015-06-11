@@ -9,6 +9,7 @@ pygame.init()
 #Cores
 white = (255,255,255)
 black = (0,0,0)
+black_creditos = (16,16,16)
 red = (150,0,0)
 bright_red = (255,0,0)
 green = (0,150,0)
@@ -275,7 +276,6 @@ def Credits():
 	pygame.mixer.music.play(-1)
 	clock = pygame.time.Clock()
 	movie = pygame.movie.Movie(os.path.join(pasta_credits,'ninja.mpg'))
-	screen = pygame.display.set_mode((800,600))
 	movie_screen = pygame.Surface(movie.get_size()).convert()
 	movie.set_display(movie_screen)
 	movie.play()
@@ -287,8 +287,8 @@ def Credits():
 			if event.type == pygame.QUIT:
 				movie.stop()
 				playing = False
-
-		screen.blit(movie_screen,(100,100))
+		setDisplay.fill(black_creditos)
+		setDisplay.blit(movie_screen,(50,200))
 		pygame.display.update()
 		clock.tick(FPS)
 
