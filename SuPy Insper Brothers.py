@@ -3,7 +3,6 @@ import sys
 from pygame.locals import *
 import os #Para importar arquivos de diferentes pastas
 import time
-from credits import credits
 
 pygame.init()
 
@@ -110,6 +109,9 @@ credits2 = pygame.image.load(os.path.join(pasta_menu,'credits2.png'))
 p1_wins = pygame.image.load(os.path.join(pasta_imagens,'player1_wins.png'))
 p2_wins = pygame.image.load(os.path.join(pasta_imagens,'player2_wins.png'))
 
+#Ninja
+movie = pygame.movie.Movie(os.path.join(pasta_credits,'ninja.mpg'))
+
 
 
 #Classe Personagens
@@ -168,6 +170,7 @@ def Menu():
 				i-=1
 			if click[0] == 1:
 				button_pressed = "Creditos"
+				pygame.mixer.music.stop()
 				return button_pressed
 		pygame.display.update()
 
@@ -264,6 +267,31 @@ def PlayerWin(win):
 	pygame.display.update()
 	time.sleep(3)
 
+def Credits():
+	FPS = 60
+
+	pygame.mixer.music.load(os.path.join(pasta_musicas,'sandstorm.mp3'))
+	pygame.mixer.music.play(-1)
+	clock = pygame.time.Clock()
+	movie = pygame.movie.Movie(os.path.join(pasta_credits,'ninja.mpg'))
+	screen = pygame.display.set_mode((800,600))
+	movie_screen = pygame.Surface(movie.get_size()).convert()
+	movie.set_display(movie_screen)
+	movie.play()
+
+
+	playing = True
+	while playing:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				movie.stop()
+				playing = False
+
+		screen.blit(movie_screen,(100,100))
+		pygame.display.update()
+		clock.tick(FPS)
+
+	pygame.quit()
 #Função Principal - Rodar Jogo
 def runGame():
 
@@ -800,7 +828,7 @@ while True:
 	while True:
 		button_pressed = Menu()
 		if button_pressed == "Creditos":
-			credits()
+			Credits()
 		personagem = Character()
 		win = runGame()
 		PlayerWin(win)	
