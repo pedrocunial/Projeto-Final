@@ -793,6 +793,8 @@ def runGame():
 				if imgx in range(int(imgx2)-38,int(imgx2)+38) and imgy+P1.altura_hitbox in range(int(imgy2)+P2.altura_hitbox -10,int(imgy2)+P2.altura_hitbox+10):
 					if p2_shield_count > 1:
 						p1_hitstun = 15
+						p2_hitstun = 0
+						p2_shield_count = 0
 					else:
 						if imgx >= imgx2:
 							imgx2 -= knockback + hit2/5 	#knockback (recuo do personagem ao ser atacado) aumenta conforme ele toma mais dano
@@ -805,6 +807,8 @@ def runGame():
 				if imgx2 in range(int(imgx)-38,int(imgx)+38) and imgy2+P2.altura_hitbox in range(int(imgy)+P1.altura_hitbox -10,int(imgy)+P1.altura_hitbox+10):
 					if p1_shield_count > 1:
 						p2_hitstun = 15
+						p1_hitstun = 0
+						p1_shield_count = 0
 					else:
 						if imgx2 >= imgx:
 							imgx -= knockback + hit1/5
