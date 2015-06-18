@@ -115,8 +115,13 @@ start_1 = pygame.image.load(os.path.join(pasta_menu,'start_1.png'))
 start_2 = pygame.image.load(os.path.join(pasta_menu,'start_2.png'))
 close_1 = pygame.image.load(os.path.join(pasta_menu,'close_1.png'))
 close_2 = pygame.image.load(os.path.join(pasta_menu,'close_2.png'))
+instructions_1 = pygame.image.load(os.path.join(pasta_menu,'instructions_1.png'))
+instructions_2 = pygame.image.load(os.path.join(pasta_menu,'instructions_2.png'))
 credits1 = pygame.image.load(os.path.join(pasta_menu,'credits1.png'))
 credits2 = pygame.image.load(os.path.join(pasta_menu,'credits2.png'))
+bg_instructions  = pygame.image.load(os.path.join(pasta_menu,'instructions.png'))
+back_1 = pygame.image.load(os.path.join(pasta_menu,'back_1.png'))
+back_2 = pygame.image.load(os.path.join(pasta_menu,'back_2.png'))
 
 
 #Wins
@@ -158,10 +163,10 @@ def Menu():
 	button_pressed = False	
 	i = 0
 	while not button_pressed:
+		mouse_pos = pygame.mouse.get_pos()
+		click = pygame.mouse.get_pressed()
 		setDisplay.blit(background_menu,(0,0))
 		for event in pygame.event.get():
-			mouse_pos = pygame.mouse.get_pos()
-			click = pygame.mouse.get_pressed()
 			if event.type == QUIT:
 				pygame.quit()
 				sys.exit()
@@ -179,6 +184,13 @@ def Menu():
 				sys.exit()
 		else:
 			setDisplay.blit(close_1,(500,400))
+		if 560 > mouse_pos[0] > 240 and 350 > mouse_pos[1] > 250:
+			setDisplay.blit(instructions_2,(240,250))	
+			if click[0] == 1:
+				button_pressed = "Instructions"
+				return button_pressed
+		else:
+			setDisplay.blit(instructions_1,(240,250))	
 		if 120 > mouse_pos[0] > 0 and 23 > mouse_pos[1] > 0:
 			if i == 0:
 				setDisplay.blit(credits1,(5,5))
@@ -321,6 +333,24 @@ def Credits():
 		clock.tick(FPS)
 
 	pygame.quit()
+
+def Instructions():
+	back = False
+	while not back:
+		setDisplay.blit(bg_instructions,(0,0))
+		mouse_pos = pygame.mouse.get_pos()
+		click = pygame.mouse.get_pressed()
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				pygame.quit()
+				sys.exit()
+		if 95 > mouse_pos[0] > 20 and 85 > mouse_pos[1] > 10:
+			setDisplay.blit(back_2,(10,10))	
+			if click[0] == 1:
+				back = True		
+		else:
+			setDisplay.blit(back_1,(10,10))	
+		pygame.display.update()
 #Função Principal - Rodar Jogo
 def runGame():
 
@@ -462,7 +492,7 @@ def runGame():
 				keys = pygame.key.get_pressed()
 				#P1
 				if p1_hitstun <= 0:		#personagem só poderá atacar se não estiver em hitstun
-					if keys[K_RCTRL]:
+					if keys[K_RETURN]:
 						pressed_rctrl = True
 					if keys[K_LEFT]:
 						pressed_left = True
@@ -926,6 +956,9 @@ while True:
 		button_pressed = Menu()
 		if button_pressed == "Creditos":
 			Credits()
-		personagem = Character()
-		win = runGame()
-		PlayerWin(win)	
+		if button_pressed == "Instructions":
+			Instructions()
+		else:
+			personagem = Character()
+			win = runGame()
+			PlayerWin(win)	
