@@ -93,6 +93,18 @@ p4_punchRight= pygame.image.load(os.path.join(pasta_imagens,'miranda_punch_right
 p4_jumpRight = pygame.image.load(os.path.join(pasta_imagens,'miranda_jump_right.png'))
 p4_jumpLeft = pygame.image.load(os.path.join(pasta_imagens,'miranda_jump_left.png'))
 
+p5_walkRight1 = pygame.image.load(os.path.join(pasta_imagens,'marcelo_right1.png'))
+p5_walkRight2 = pygame.image.load(os.path.join(pasta_imagens,'marcelo_right2.png'))
+p5_walkRight3= pygame.image.load(os.path.join(pasta_imagens,'marcelo_right3.png'))
+p5_walkLeft1= pygame.image.load(os.path.join(pasta_imagens,'marcelo_left1.png'))
+p5_walkLeft2= pygame.image.load(os.path.join(pasta_imagens,'marcelo_left2.png'))
+p5_walkLeft3= pygame.image.load(os.path.join(pasta_imagens,'marcelo_left3.png'))
+p5_punchLeft= pygame.image.load(os.path.join(pasta_imagens,'marcelo_punch_left.png'))
+p5_punchRight= pygame.image.load(os.path.join(pasta_imagens,'marcelo_punch_right.png'))
+p5_jumpRight = pygame.image.load(os.path.join(pasta_imagens,'marcelo_jump_right.png'))
+p5_jumpLeft = pygame.image.load(os.path.join(pasta_imagens,'marcelo_jump_left.png'))
+
+
 #Imagens Menu
 background_menu = pygame.image.load(os.path.join(pasta_menu,'background_menu.png'))
 background_character = pygame.image.load(os.path.join(pasta_menu,'choose_character.png'))
@@ -215,6 +227,11 @@ def Character():
 				if click[0] == 1:
 					personagem[0] = "Miranda"
 					button_pressed_p1 = True
+			if 726 > mouse_pos[0] > 627 and 233 > mouse_pos[1] > 133:
+				setDisplay.blit(p1_select,(633,130))
+				if click[0] == 1:
+					personagem[0] = "Marcelo"
+					button_pressed_p1 = True
 			#Adicionar novos personagens aqui.
 			#
 			#
@@ -255,6 +272,11 @@ def Character():
 				setDisplay.blit(p2_select,(491,130))
 				if click[0] == 1:
 					personagem[1] = "Miranda"
+					button_pressed_p2 = True
+			if 726 > mouse_pos[0] > 627 and 233 > mouse_pos[1] > 133:
+				setDisplay.blit(p2_select,(633,130))
+				if click[0] == 1:
+					personagem[1] = "Marcelo"
 					button_pressed_p2 = True
 			#Adicionar novos personagens aqui.
 			#
@@ -312,6 +334,8 @@ def runGame():
 		P1 = Personagem(p1_eixox,p1_eixoy,p3_walkRight1,p3_walkRight2,p3_walkRight3,p3_walkLeft1,p3_walkLeft2,p3_walkLeft3,p3_punchRight,p3_punchLeft,p3_jumpRight,p3_jumpLeft,42)
 	if personagem[0] == "Miranda":
 		P1 = Personagem(p1_eixox,p1_eixoy,p4_walkRight1,p4_walkRight2,p4_walkRight3,p4_walkLeft1,p4_walkLeft2,p4_walkLeft3,p4_punchRight,p4_punchLeft,p4_jumpRight,p4_jumpLeft,42)
+	if personagem[0] == "Marcelo":
+		P1 = Personagem(p1_eixox,p1_eixoy,p5_walkRight1,p5_walkRight2,p5_walkRight3,p5_walkLeft1,p5_walkLeft2,p5_walkLeft3,p5_punchRight,p5_punchLeft,p5_jumpRight,p5_jumpLeft,42)
 	if personagem[1] == "Pedro":
 		P2 = Personagem(p2_eixox,p2_eixoy,p1_walkRight1,p1_walkRight2,p1_walkRight3,p1_walkLeft1,p1_walkLeft2,p1_walkLeft3,p1_punchRight,p1_punchLeft,p1_jumpRight,p1_jumpLeft,42)
 	if personagem[1] == "PixelGuy":
@@ -320,6 +344,9 @@ def runGame():
 		P2 = Personagem(p1_eixox,p1_eixoy,p3_walkRight1,p3_walkRight2,p3_walkRight3,p3_walkLeft1,p3_walkLeft2,p3_walkLeft3,p3_punchRight,p3_punchLeft,p3_jumpRight,p3_jumpLeft,42)
 	if personagem[1] == "Miranda":
 		P2 = Personagem(p1_eixox,p1_eixoy,p4_walkRight1,p4_walkRight2,p4_walkRight3,p4_walkLeft1,p4_walkLeft2,p4_walkLeft3,p4_punchRight,p4_punchLeft,p4_jumpRight,p4_jumpLeft,42)
+	if personagem[1] == "Marcelo":
+		P2 = Personagem(p1_eixox,p1_eixoy,p5_walkRight1,p5_walkRight2,p5_walkRight3,p5_walkLeft1,p5_walkLeft2,p5_walkLeft3,p5_punchRight,p5_punchLeft,p5_jumpRight,p5_jumpLeft,42)
+
 
 
 
@@ -347,6 +374,12 @@ def runGame():
 		imgy = 308
 		imgy_original = 308
 	if personagem[1] == "Miranda":
+		imgy2 = 308
+		imgy2_original = 308
+	if personagem[0] == "Marcelo":
+		imgy = 308
+		imgy_original = 308
+	if personagem[1] == "Marcelo":
 		imgy2 = 308
 		imgy2_original = 308
 
